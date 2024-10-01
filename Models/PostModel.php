@@ -45,7 +45,7 @@ class PostModel{
 			$response = array(
 
 				"lastId" => $link->lastInsertId(),
-				"comment" => "The process was successful"
+				"comment" => "The update was successful"
 				
 			);
 
