@@ -52,6 +52,8 @@ if(count($routesArray) == 1 && isset($_SERVER['REQUEST_METHOD'])){
 	if($_SERVER['REQUEST_METHOD'] == "GET"){
 		include "services/get.php";
 
+		
+
 	}
 
 }
