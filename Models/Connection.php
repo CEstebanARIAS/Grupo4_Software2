@@ -6,7 +6,7 @@ class Connection
     static public function infoDatabase()
     {
         $infoDB = array(
-            "database" => "bovinosbd",
+            "database" => "u145597152_grupocuatro",
             "user" => "root",
             "pass" => ""
         );
