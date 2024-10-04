@@ -43,5 +43,8 @@ class PutModel{
         }
            
     }
+    static public function putConditionalData($table, $data, $conditions){
+        
+    }
 }
 ?>
