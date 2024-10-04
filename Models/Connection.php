@@ -6,9 +6,10 @@ class Connection
     static public function infoDatabase()
     {
         $infoDB = array(
-            "database" => "u145597152_grupocuatro",
-            "user" => "root",
-            "pass" => ""
+            "host" => 'auth-db1526.hstgr.io', // Dirección del host del servidor
+            "database" => 'u145597152_ugrupocuatro', // Nombre de la base de datos
+            "user" => 'u145597152_ugrupocuatro', // Nombre de usuario para acceder (debes usar el nombre de usuario correcto)
+            "pass" => 'x+ZI$x[6' // Contraseña para el usuario
         );
         return $infoDB;
     }
