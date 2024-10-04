@@ -6,10 +6,9 @@ class Connection
     static public function infoDatabase()
     {
         $infoDB = array(
-            "host" => 'auth-db1526.hstgr.io', // Dirección del host del servidor
-            "database" => 'u145597152_ugrupocuatro', // Nombre de la base de datos
-            "user" => 'u145597152_ugrupocuatro', // Nombre de usuario para acceder (debes usar el nombre de usuario correcto)
-            "pass" => 'x+ZI$x[6' // Contraseña para el usuario
+            "database" => 'u145597152_grupocuatro', 
+            "user" => 'u145597152_ugrupocuatro', 
+            "pass" => 'x+ZI$x[6'
         );
         return $infoDB;
     }
@@ -30,7 +29,7 @@ class Connection
     {
         try {
             $link = new PDO(
-                "mysql:host=localhost;dbname=" . Connection::infoDatabase()["database"],
+                "mysql:host=auth-db1526.hstgr.io;dbname=" . Connection::infoDatabase()["database"],
                 Connection::infoDatabase()["user"],
                 Connection::infoDatabase()["pass"]
             );
