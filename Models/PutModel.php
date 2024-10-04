@@ -27,6 +27,7 @@ class PutModel{
 
         $link= Connection::connect();
         $stmt=$link ->prepare($sql);
+        
 
         foreach($data as $key=>$values){
             $stmt->bindParam(":".$key, $data[$key], PDO::PARAM_STR);            
