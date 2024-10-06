@@ -9,11 +9,11 @@ $routesArray = array_filter($routesArray);
 /* /===== Cuando no se hace ninguna peticion a la API =======/ */
 
 if(count($routesArray) == 0){
-
+	
 	$json = array(
 
 		'status' => 404,
-		'results' => 'Not Found'
+		'results' => 'No encontro la ruta, para consultar los datos publicos escriba /Publicos a la direccion web'
 
 	);
 
