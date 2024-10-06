@@ -13,7 +13,7 @@ $inTo = $_GET["inTo"] ?? null;
 
 $response = new GetController();
 
-
+echo('Prueba de impresion');
 
 if(isset($_GET["linkTo"]) && isset($_GET["equalTo"]) && !isset($_GET["rel"]) && !isset($_GET["type"])){
     $response->getDataFilter($table, $select, $_GET["linkTo"],$_GET["equalTo"], $orderBy, $orderMode, $startAt, $endAt);
