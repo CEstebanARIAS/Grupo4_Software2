@@ -21,7 +21,7 @@ class Connection
 
     static public function publicAccess()
     {
-        $table = ["lotes"];
+        $table = ["Publicos"];
         return $table;
     }
 
