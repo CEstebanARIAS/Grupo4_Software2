@@ -50,7 +50,6 @@ if(count($routesArray) == 1 && isset($_SERVER['REQUEST_METHOD'])){
 	
 	}
 	if($_SERVER['REQUEST_METHOD'] == "GET"){
-		echo('METODO GET en routes.php');
 		include "Services/get.php";
 
 	}
