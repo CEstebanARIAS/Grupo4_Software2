@@ -1,7 +1,7 @@
 <?php
 
-require_once "controllers/get.controller.php";
-require_once "models/connection.php";
+require_once "Controllers/get.controller.php";
+require_once "Models/Connection.php";
 
 $select = $_GET["select"] ?? "*";
 $orderBy = $_GET["orderBy"] ?? null;
@@ -71,3 +71,5 @@ Peticiones GET para selección de rangos con relaciones
 
 	$response->getData($table, $select, $orderBy, $orderMode, $startAt, $endAt);
 }
+
+?>
