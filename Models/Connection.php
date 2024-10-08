@@ -14,9 +14,9 @@ class Connection
 
 		$infoDB = array(
 
-			"database" => "u145597152_grupocinco2",
-			"user" => "u145597152_ugrupocinco2",
-			"pass" => "E=VGfw>2"
+			"database" => "u145597152_grupocuatro",
+			"user" => "u145597152_ugrupocuatro",
+			"pass" => 'x+ZI$x[6'
 
 		);
 
@@ -30,7 +30,7 @@ class Connection
 	static public function apikey()
 	{
 
-		return "c5LTA6WPbMwHhEabYu77nN9cn4VcMj";
+		return "asdkfah234$#%";
 	}
 
 	/*=============================================
@@ -39,7 +39,7 @@ class Connection
 	static public function publicAccess()
 	{
 
-		$tables = ["usuarios", "barrios", "intructors"];
+		$tables = ["Publicos"];
 
 		return $tables;
 	}
