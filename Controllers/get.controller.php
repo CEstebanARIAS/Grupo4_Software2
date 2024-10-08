@@ -10,7 +10,7 @@ class GetController{
 
 	static public function getData($table, $select,$orderBy,$orderMode,$startAt,$endAt){
 		$response = GetModel::getData($table, $select,$orderBy,$orderMode,$startAt,$endAt);
-		echo('prueba 1');
+		
 		$return = new GetController();
 		$return -> fncResponse($response);
 
@@ -35,7 +35,7 @@ class GetController{
 	static public function getRelData($rel,$type,$select,$orderBy,$orderMode,$startAt,$endAt){
 
 		$response = GetModel::getRelData($rel,$type,$select,$orderBy,$orderMode,$startAt,$endAt);
-		
+		echo('prueba 1');
 		$return = new GetController();
 		$return -> fncResponse($response);
 
