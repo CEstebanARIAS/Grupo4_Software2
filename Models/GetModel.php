@@ -9,7 +9,7 @@ class GetModel{
 	=============================================*/
 
 	static public function getData($table, $select,$orderBy,$orderMode,$startAt,$endAt){
-		echo('Funcion getData del Modelo');
+		
 		/*=============================================
 		Validar existencia de la tabla y de las columnas
 		=============================================*/

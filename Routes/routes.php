@@ -9,11 +9,11 @@ $routesArray = array_filter($routesArray);
 /* /===== Cuando no se hace ninguna peticion a la API =======/ */
 
 if(count($routesArray) == 0){
-
+	
 	$json = array(
 
 		'status' => 404,
-		'results' => 'Not Found'
+		'results' => 'No encontro la ruta, para consultar los datos publicos escriba /Publicos a la direccion web'
 
 	);
 
@@ -50,7 +50,7 @@ if(count($routesArray) == 1 && isset($_SERVER['REQUEST_METHOD'])){
 	
 	}
 	if($_SERVER['REQUEST_METHOD'] == "GET"){
-		include "services/get.php";
+		include "Services/get.php";
 
 	}
 
