@@ -1,6 +1,6 @@
 <?php
 
-require_once "models/get.model.php";
+require_once "Models/GetModel.php";
 
 class GetController{
 
@@ -9,9 +9,8 @@ class GetController{
 	=============================================*/
 
 	static public function getData($table, $select,$orderBy,$orderMode,$startAt,$endAt){
-
 		$response = GetModel::getData($table, $select,$orderBy,$orderMode,$startAt,$endAt);
-
+		
 		$return = new GetController();
 		$return -> fncResponse($response);
 
@@ -22,9 +21,8 @@ class GetController{
 	=============================================*/
 
 	static public function getDataFilter($table, $select, $linkTo, $equalTo,$orderBy,$orderMode,$startAt,$endAt){
-
 		$response = GetModel::getDataFilter($table, $select, $linkTo, $equalTo,$orderBy,$orderMode,$startAt,$endAt);
-
+		
 		$return = new GetController();
 		$return -> fncResponse($response);
 
@@ -42,7 +40,6 @@ class GetController{
 		$return -> fncResponse($response);
 
 	}
-
 
 	/*=============================================
 	Peticiones GET con filtro entre tablas relacionadas
