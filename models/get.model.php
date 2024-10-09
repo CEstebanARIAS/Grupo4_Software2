@@ -1,6 +1,6 @@
 <?php
 
-require_once "Connection.php";
+require_once "connection.php";
 
 class GetModel{
 
@@ -9,7 +9,7 @@ class GetModel{
 	=============================================*/
 
 	static public function getData($table, $select,$orderBy,$orderMode,$startAt,$endAt){
-		
+
 		/*=============================================
 		Validar existencia de la tabla y de las columnas
 		=============================================*/
@@ -120,35 +120,55 @@ class GetModel{
 		=============================================*/
 
 		$sql = "SELECT $select FROM $table WHERE $linkToArray[0] = :$linkToArray[0] $linkToText";
+
 		/*=============================================
 		Ordenar datos sin limites
 		=============================================*/
+
 		if($orderBy != null && $orderMode != null && $startAt == null && $endAt == null){
+
 			$sql = "SELECT $select FROM $table WHERE $linkToArray[0] = :$linkToArray[0] $linkToText ORDER BY $orderBy $orderMode";
+
 		}
+
 		/*=============================================
 		Ordenar y limitar datos
 		=============================================*/
+
 		if($orderBy != null && $orderMode != null && $startAt != null && $endAt != null){
 
 			$sql = "SELECT $select FROM $table WHERE $linkToArray[0] = :$linkToArray[0] $linkToText ORDER BY $orderBy $orderMode LIMIT $startAt, $endAt";
 
 		}
+
 		/*=============================================
 		Limitar datos sin ordenar
 		=============================================*/
+
 		if($orderBy == null && $orderMode == null && $startAt != null && $endAt != null){
+
 			$sql = "SELECT $select FROM $table WHERE $linkToArray[0] = :$linkToArray[0] $linkToText LIMIT $startAt, $endAt";
+
 		}
+
 		$stmt = Connection::connect()->prepare($sql);
+
 		foreach ($linkToArray as $key => $value) {
+			
 			$stmt -> bindParam(":".$value, $equalToArray[$key], PDO::PARAM_STR);
+
 		}
+
 		try{
+
 			$stmt -> execute();
+
 		}catch(PDOException $Exception){
+
 			return null;
+		
 		}
+
 		return $stmt -> fetchAll(PDO::FETCH_CLASS);
 
 	}
@@ -183,7 +203,7 @@ class GetModel{
 				
 				if($key > 0){
 
-					$innerJoinText .= "INNER JOIN ".$value." ON ".$relArray[0].".id_".$typeArray[$key]."".$typeArray[0] ." = ".$value.".id".$typeArray[$key]." ";
+					$innerJoinText .= "INNER JOIN ".$value." ON ".$relArray[0].".id_".$typeArray[$key]."_".$typeArray[0] ." = ".$value.".id_".$typeArray[$key]." ";
 				}
 			}
 
@@ -296,7 +316,7 @@ class GetModel{
 				
 				if($key > 0){
 
-					$innerJoinText .= "INNER JOIN ".$value." ON ".$relArray[0].".id_".$typeArray[$key]."".$typeArray[0] ." = ".$value.".id".$typeArray[$key]." ";
+					$innerJoinText .= "INNER JOIN ".$value." ON ".$relArray[0].".id_".$typeArray[$key]."_".$typeArray[0] ." = ".$value.".id_".$typeArray[$key]." ";
 				}
 			}
 
@@ -519,7 +539,7 @@ class GetModel{
 				
 				if($key > 0){
 
-					$innerJoinText .= "INNER JOIN ".$value." ON ".$relArray[0].".id_".$typeArray[$key]."".$typeArray[0] ." = ".$value.".id".$typeArray[$key]." ";
+					$innerJoinText .= "INNER JOIN ".$value." ON ".$relArray[0].".id_".$typeArray[$key]."_".$typeArray[0] ." = ".$value.".id_".$typeArray[$key]." ";
 				}
 			}
 
@@ -734,7 +754,7 @@ class GetModel{
 				
 				if($key > 0){
 
-					$innerJoinText .= "INNER JOIN ".$value." ON ".$relArray[0].".id_".$typeArray[$key]."".$typeArray[0]." = ".$value.".id".$typeArray[$key]." ";
+					$innerJoinText .= "INNER JOIN ".$value." ON ".$relArray[0].".id_".$typeArray[$key]."_".$typeArray[0]." = ".$value.".id_".$typeArray[$key]." ";
 				}
 			}
 
@@ -797,3 +817,4 @@ class GetModel{
 
 
 }
+
