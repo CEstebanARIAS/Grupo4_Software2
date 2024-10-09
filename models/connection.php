@@ -30,7 +30,7 @@ class Connection
 	static public function apikey()
 	{
 
-		return "asdkfah234$#%";
+		return "c5LTA6WPbMwHhEabYu77nN9cn4VcMj";
 	}
 
 	/*=============================================
@@ -39,7 +39,7 @@ class Connection
 	static public function publicAccess()
 	{
 
-		$tables = ["users", "reservations", "rooms"];
+		$tables = ["usuarios", "barrios", "intructors"];
 
 		return $tables;
 	}
@@ -55,15 +55,15 @@ class Connection
 		try {
 
 			$link = new PDO(
-				"mysql:host=localhost;dbname=".Connection::infoDatabase()["database"],
-				Connection::infoDatabase()["user"], 
+				"mysql:host=localhost;dbname=" . Connection::infoDatabase()["database"],
+				Connection::infoDatabase()["user"],
 				Connection::infoDatabase()["pass"]
 			);
 
 			$link->exec("set names utf8");
 		} catch (PDOException $e) {
 
-			die("Error: ".$e->getMessage());
+			die("Error: " . $e->getMessage());
 		}
 
 		return $link;
