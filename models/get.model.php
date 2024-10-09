@@ -182,7 +182,7 @@ class GetModel{
 		/*=============================================
 		Validar existencia de las columnas
 		=============================================*/
-	
+		echo($rel);
 		$relArray = explode(",", $rel);
 		$typeArray = explode(",", $type);
 		$innerJoinText = "";
