@@ -31,6 +31,12 @@ class GetController
 		$return->fncResponse($response);
 	}
 
+	static public function getDataClave($table, $select, $linkTo, $equalTo, $orderBy, $orderMode, $startAt, $endAt)
+    {
+        $response = GetModel::getDataFilter($table, $select, $linkTo, $equalTo, $orderBy, $orderMode, $startAt, $endAt);
+        return $response;
+    }
+
 	/*=============================================
 	Peticiones GET sin filtro entre tablas relacionadas
 	=============================================*/
