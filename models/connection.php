@@ -56,7 +56,7 @@ class Connection
 		try {
 
 			$link = new PDO(
-				"mysql:host=auth-db1526.hstgr.io;dbname=" . Connection::infoDatabase()["database"],
+				"mysql:host=localhost;dbname=" . Connection::infoDatabase()["database"],
 				Connection::infoDatabase()["user"],
 				Connection::infoDatabase()["pass"]
 			);
