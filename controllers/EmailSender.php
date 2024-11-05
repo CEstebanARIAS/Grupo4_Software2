@@ -23,7 +23,7 @@ class EmailSender
         $this->mailer->Host       = 'smtp.hostinger.com';
         $this->mailer->SMTPAuth   = true;
         $this->mailer->Username   = 'grupo4@ujdc.online';
-        $this->mailer->Password   = '0uEExr?UkRL';
+        $this->mailer->Password   = '0uEExr?UkRL;';
         $this->mailer->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; // Cambia a SMTPS
         $this->mailer->Port       = 465;
         $this->mailer->CharSet    = 'UTF-8';
