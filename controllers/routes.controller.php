@@ -1,18 +1,14 @@
 <?php
 
+class RoutesController
+{
 
-class RoutesController{
+    /*=============================================
+    Ruta Principal
+    =============================================*/
 
-
-	/*=============================================
-	Ruta Principal
-	=============================================*/
-	
-	public function index(){
-
-		include "routes/routes.php";
-
-	}
-
-
+    public function index()
+    {
+        include "routes/routes.php";
+    }
 }

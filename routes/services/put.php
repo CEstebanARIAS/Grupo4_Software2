@@ -3,156 +3,137 @@
 require_once "models/connection.php";
 require_once "controllers/put.controller.php";
 
-if(isset($_GET["id"]) && isset($_GET["nameId"])){
+if (isset($_GET["id"]) && isset($_GET["nameId"])) {
 
-	/*=============================================
-	Capturamos los datos del formulario
-	=============================================*/
-	
-	$data = array();
-	parse_str(file_get_contents('php://input'), $data);
-		
-	/*=============================================
-	Separar propiedades en un arreglo
-	=============================================*/
+    /*=============================================
+    Capturamos los datos del formulario
+    =============================================*/
 
-	$columns = array();
-		
-	foreach (array_keys($data) as $key => $value) {
+    $data = array();
+    parse_str(file_get_contents('php://input'), $data);
 
-		array_push($columns, $value);
-		
-	}
+    /*=============================================
+    Separar propiedades en un arreglo
+    =============================================*/
 
-	array_push($columns, $_GET["nameId"]);
+    $columns = array();
 
-	$columns = array_unique($columns);
+    foreach (array_keys($data) as $key => $value) {
+        array_push($columns, $value);
+    }
 
-	/*=============================================
-	Validar la tabla y las columnas
-	=============================================*/
+    array_push($columns, $_GET["nameId"]);
+    $columns = array_unique($columns);
 
-	if(empty(Connection::getColumnsData($table, $columns))){
+    /*=============================================
+    Validar la tabla y las columnas
+    =============================================*/
 
-		$json = array(
-		 	'status' => 400,
-		 	'results' => "Error: Fields in the form do not match the database"
-		);
+    if (empty(Connection::getColumnsData($table, $columns))) {
 
-		echo json_encode($json, http_response_code($json["status"]));
+        $json = array(
+            'status' => 400,
+            'results' => "Error: Fields in the form do not match the database"
+        );
 
-		return;
+        echo json_encode($json, http_response_code($json["status"]));
+        return;
+    }
 
-	}
+    if (isset($_GET["token"])) {
 
-	if(isset($_GET["token"])){
+        /*=============================================
+        Petición PUT para usuarios no autorizados
+        =============================================*/
 
-		/*=============================================
-		Peticion PUT para usuarios no autorizados
-		=============================================*/
+        if ($_GET["token"] == "no" && isset($_GET["except"])) {
 
-		if($_GET["token"] == "no" && isset($_GET["except"])){
+            /*=============================================
+            Validar la tabla y las columnas
+            =============================================*/
 
-			/*=============================================
-			Validar la tabla y las columnas
-			=============================================*/
+            $columns = array($_GET["except"]);
 
-			$columns = array($_GET["except"]);
+            if (empty(Connection::getColumnsData($table, $columns))) {
 
-			if(empty(Connection::getColumnsData($table, $columns))){
+                $json = array(
+                    'status' => 400,
+                    'results' => "Error: Fields in the form do not match the database"
+                );
 
-				$json = array(
-				 	'status' => 400,
-				 	'results' => "Error: Fields in the form do not match the database"
-				);
+                echo json_encode($json, http_response_code($json["status"]));
+                return;
+            }
 
-				echo json_encode($json, http_response_code($json["status"]));
+            /*=============================================
+            Solicitamos respuesta del controlador para crear datos en cualquier tabla
+            =============================================*/
 
-				return;
+            $response = new PutController();
+            $response->putData($table, $data, $_GET["id"], $_GET["nameId"]);
 
-			}
+            /*=============================================
+        Petición PUT para usuarios autorizados
+        =============================================*/
+        } else {
 
-			/*=============================================
-			Solicitamos respuesta del controlador para crear datos en cualquier tabla
-			=============================================*/		
+            $tableToken = $_GET["table"] ?? "users";
+            $suffix = $_GET["suffix"] ?? "user";
 
-			$response = new PutController();
-			$response -> putData($table,$data,$_GET["id"],$_GET["nameId"]);
-			
-		/*=============================================
-		Peticion PUT para usuarios autorizados
-		=============================================*/
+            $validate = Connection::tokenValidate($_GET["token"], $tableToken, $suffix);
 
-		}else{
+            /*=============================================
+            Solicitamos respuesta del controlador para editar datos en cualquier tabla
+            =============================================*/
 
-			$tableToken = $_GET["table"] ?? "users";
-			$suffix = $_GET["suffix"] ?? "user";
+            if ($validate == "ok") {
 
-			$validate = Connection::tokenValidate($_GET["token"],$tableToken,$suffix);
+                $response = new PutController();
+                $response->putData($table, $data, $_GET["id"], $_GET["nameId"]);
+            }
 
-			/*=============================================
-			Solicitamos respuesta del controlador para editar datos en cualquier tabla
-			=============================================*/		
+            /*=============================================
+            Error cuando el token ha expirado
+            =============================================*/
 
-			if($validate == "ok"){
-				
-				$response = new PutController();
-				$response -> putData($table,$data,$_GET["id"],$_GET["nameId"]);
+            if ($validate == "expired") {
 
-			}
+                $json = array(
+                    'status' => 303,
+                    'results' => "Error: The token has expired"
+                );
 
-			/*=============================================
-			Error cuando el token ha expirado
-			=============================================*/	
+                echo json_encode($json, http_response_code($json["status"]));
+                return;
+            }
 
-			if($validate == "expired"){
+            /*=============================================
+            Error cuando el token no coincide en BD
+            =============================================*/
 
-				$json = array(
-				 	'status' => 303,
-				 	'results' => "Error: The token has expired"
-				);
+            if ($validate == "no-auth") {
 
-				echo json_encode($json, http_response_code($json["status"]));
+                $json = array(
+                    'status' => 400,
+                    'results' => "Error: The user is not authorized"
+                );
 
-				return;
+                echo json_encode($json, http_response_code($json["status"]));
+                return;
+            }
+        }
 
-			}
+        /*=============================================
+    Error cuando no envía token
+    =============================================*/
+    } else {
 
-			/*=============================================
-			Error cuando el token no coincide en BD
-			=============================================*/	
+        $json = array(
+            'status' => 400,
+            'results' => "Error: Authorization required"
+        );
 
-			if($validate == "no-auth"){
-
-				$json = array(
-				 	'status' => 400,
-				 	'results' => "Error: The user is not authorized"
-				);
-
-				echo json_encode($json, http_response_code($json["status"]));
-
-				return;
-
-			}
-
-		}
-
-	/*=============================================
-	Error cuando no envía token
-	=============================================*/	
-
-	}else{
-
-		$json = array(
-		 	'status' => 400,
-		 	'results' => "Error: Authorization required"
-		);
-
-		echo json_encode($json, http_response_code($json["status"]));
-
-		return;	
-
-	}	
-
-
+        echo json_encode($json, http_response_code($json["status"]));
+        return;
+    }
 }

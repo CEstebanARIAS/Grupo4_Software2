@@ -1,4 +1,3 @@
-
 <?php
 
 require_once "models/get.model.php";
@@ -270,7 +269,7 @@ class PostController
 				return;
 			}
 
-			if ($user->reset_attempts_user >= 5) {
+			if ($user->reset_attempts_user >= 2) {
 				$this->fncResponse(null, "Max attempts reached. Request a new code.", $suffix);
 				return;
 			}

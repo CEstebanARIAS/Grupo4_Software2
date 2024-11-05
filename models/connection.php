@@ -14,9 +14,9 @@ class Connection
 
 		$infoDB = array(
 
-			"database" => "u145597152_grupocuatro",
-			"user" => "u145597152_ugrupocuatro",
-			"pass" => 'x+ZI$x[6'
+			"database" => "u145597152_grupocinco2",
+			"user" => "u145597152_ugrupocinco2",
+			"pass" => "E=VGfw>2"
 
 		);
 
@@ -39,7 +39,7 @@ class Connection
 	static public function publicAccess()
 	{
 
-		$tables = ["usuarios", "barrios", "intructors"];
+		$tables = [];
 
 		return $tables;
 	}

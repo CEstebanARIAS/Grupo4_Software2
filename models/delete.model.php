@@ -1,54 +1,46 @@
-<?php 
+<?php
 
 require_once "connection.php";
 require_once "get.model.php";
 
-class DeleteModel{
+class DeleteModel
+{
 
-	/*=============================================
-	Peticion Delete para eliminar datos de forma dinámica
-	=============================================*/
+    /*=============================================
+    Petición Delete para eliminar datos de forma dinámica
+    =============================================*/
 
-	static public function deleteData($table, $id, $nameId){
+    static public function deleteData($table, $id, $nameId)
+    {
 
-		/*=============================================
-		Validar el ID
-		=============================================*/
+        /*=============================================
+        Validar el ID
+        =============================================*/
 
-		$response = GetModel::getDataFilter($table, $nameId, $nameId, $id, null,null,null,null);
-		
-		if(empty($response)){
+        $response = GetModel::getDataFilter($table, $nameId, $nameId, $id, null, null, null, null);
 
-			return null;
+        if (empty($response)) {
+            return null;
+        }
 
-		}
+        /*=============================================
+        Eliminamos registros
+        =============================================*/
 
-		/*=============================================
-		Eliminamos registros
-		=============================================*/
+        $sql = "DELETE FROM $table WHERE $nameId = :$nameId";
 
-		$sql = "DELETE FROM $table WHERE $nameId = :$nameId";
+        $link = Connection::connect();
+        $stmt = $link->prepare($sql);
 
-		$link = Connection::connect();
-		$stmt = $link->prepare($sql);
+        $stmt->bindParam(":" . $nameId, $id, PDO::PARAM_STR);
 
-		$stmt->bindParam(":".$nameId, $id, PDO::PARAM_STR);
-
-		if($stmt -> execute()){
-
-			$response = array(
-
-				"comment" => "The process was successful"
-			);
-
-			return $response;
-		
-		}else{
-
-			return $link->errorInfo();
-
-		}
-
-	}
-
+        if ($stmt->execute()) {
+            $response = array(
+                "comment" => "The process was successful"
+            );
+            return $response;
+        } else {
+            return $link->errorInfo();
+        }
+    }
 }
