@@ -28,7 +28,7 @@ class EmailSender
         $this->mailer->Port       = 465;
         $this->mailer->CharSet    = 'UTF-8';
         $this->mailer->Timeout    = 30; // Añade un timeout
-        $this->mailer->setFrom('grupo4@ujdc.online', 'GRUPO CUATRO');
+        $this->mailer->setFrom('grupo4@ujdc.online', 'Grupo4_Software2');
         $this->mailer->isHTML(true);
     }
 
