@@ -22,13 +22,13 @@ class EmailSender
         $this->mailer->isSMTP();
         $this->mailer->Host       = 'smtp.hostinger.com';
         $this->mailer->SMTPAuth   = true;
-        $this->mailer->Username   = 'grupo1@ujdc.online';
-        $this->mailer->Password   = 'R?GOmZ|&U1:h';
+        $this->mailer->Username   = 'grupocuatro@ujdc.online';
+        $this->mailer->Password   = '0uEExr?UkRL';
         $this->mailer->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; // Cambia a SMTPS
         $this->mailer->Port       = 465;
         $this->mailer->CharSet    = 'UTF-8';
         $this->mailer->Timeout    = 30; // Añade un timeout
-        $this->mailer->setFrom('grupo1@ujdc.online', 'Consultoria UJDC');
+        $this->mailer->setFrom('grupo4@ujdc.online', 'GRUPO CUATRO');
         $this->mailer->isHTML(true);
     }
 
