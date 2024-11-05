@@ -193,7 +193,7 @@ class PostController
 	public function postPasswordRecoveryRequest($table, $data, $suffix)
 	{
 		$data = [
-			"email_user" => "cearias@jdc.edu.co" // Este debe ser el correo electrónico del usuario
+			"email_user" => "lmariananino@jdc.edu.co" // Este debe ser el correo electrónico del usuario
 		];
 		
 		if (!isset($data["email_" . $suffix])) {
