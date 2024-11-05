@@ -1,3 +1,4 @@
+
 <?php
 
 require_once "models/get.model.php";
@@ -35,6 +36,7 @@ class PostController
 
 	static public function postRegister($table, $data, $suffix)
 	{
+		
 
 		if (isset($data["password_" . $suffix]) && $data["password_" . $suffix] != null) {
 
@@ -190,6 +192,10 @@ class PostController
 	=============================================*/
 	public function postPasswordRecoveryRequest($table, $data, $suffix)
 	{
+		$data = [
+			"email_user" => "cearias@jdc.edu.co" // Este debe ser el correo electrónico del usuario
+		];
+		
 		if (!isset($data["email_" . $suffix])) {
 			$this->fncResponse(null, "Email is required", $suffix);
 			return;
@@ -220,7 +226,6 @@ class PostController
 				$emailSent = $emailSender->sendRecoveryCode($data["email_" . $suffix], $code);
 
 				if ($emailSent) {
-
 					error_log("Email enviado correctamente");
 					$this->fncResponse([
 						"message" => "Recovery code sent to your email"
@@ -269,7 +274,7 @@ class PostController
 				return;
 			}
 
-			if ($user->reset_attempts_user >= 2) {
+			if ($user->reset_attempts_user >= 5) {
 				$this->fncResponse(null, "Max attempts reached. Request a new code.", $suffix);
 				return;
 			}

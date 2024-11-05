@@ -3,87 +3,99 @@
 require_once "models/connection.php";
 require_once "controllers/delete.controller.php";
 
-if (isset($_GET["id"]) && isset($_GET["nameId"])) {
+if(isset($_GET["id"]) && isset($_GET["nameId"])){
 
-    $columns = array($_GET["nameId"]);
+	$columns = array($_GET["nameId"]);
 
-    /*=============================================
-    Validar la tabla y las columnas
-    =============================================*/
+	/*=============================================
+	Validar la tabla y las columnas
+	=============================================*/
 
-    if (empty(Connection::getColumnsData($table, $columns))) {
+	if(empty(Connection::getColumnsData($table, $columns))){
 
-        $json = array(
-            'status' => 400,
-            'results' => "Error: Fields in the form do not match the database"
-        );
+		$json = array(
+		 	'status' => 400,
+		 	'results' => "Error: Fields in the form do not match the database"
+		);
 
-        echo json_encode($json, http_response_code($json["status"]));
-        return;
-    }
+		echo json_encode($json, http_response_code($json["status"]));
 
-    /*=============================================
-    Petición DELETE para usuarios autorizados
-    =============================================*/
+		return;
 
-    if (isset($_GET["token"])) {
+	}
 
-        $tableToken = $_GET["table"] ?? "users";
-        $suffix = $_GET["suffix"] ?? "user";
+	/*=============================================
+	Peticion DELETE para usuarios autorizados
+	=============================================*/
 
-        $validate = Connection::tokenValidate($_GET["token"], $tableToken, $suffix);
+	if(isset($_GET["token"])){
 
-        /*=============================================
-        Solicitamos respuesta del controlador para eliminar datos en cualquier tabla
-        =============================================*/    
-            
-        if ($validate == "ok") {
-            $response = new DeleteController();
-            $response->deleteData($table, $_GET["id"], $_GET["nameId"]);
-        }
+		$tableToken = $_GET["table"] ?? "users";
+		$suffix = $_GET["suffix"] ?? "user";
 
-        /*=============================================
-        Error cuando el token ha expirado
-        =============================================*/    
+		$validate = Connection::tokenValidate($_GET["token"],$tableToken,$suffix);
 
-        if ($validate == "expired") {
+		/*=============================================
+		Solicitamos respuesta del controlador para eliminar datos en cualquier tabla
+		=============================================*/	
+			
+		if($validate == "ok"){
+	
+			$response = new DeleteController();
+			$response -> deleteData($table,$_GET["id"],$_GET["nameId"]);
 
-            $json = array(
-                'status' => 303,
-                'results' => "Error: The token has expired"
-            );
+		}
 
-            echo json_encode($json, http_response_code($json["status"]));
-            return;
-        }
+		/*=============================================
+		Error cuando el token ha expirado
+		=============================================*/	
 
-        /*=============================================
-        Error cuando el token no coincide en BD
-        =============================================*/    
+		if($validate == "expired"){
 
-        if ($validate == "no-auth") {
+			$json = array(
+			 	'status' => 303,
+			 	'results' => "Error: The token has expired"
+			);
 
-            $json = array(
-                'status' => 400,
-                'results' => "Error: The user is not authorized"
-            );
+			echo json_encode($json, http_response_code($json["status"]));
 
-            echo json_encode($json, http_response_code($json["status"]));
-            return;
-        }
+			return;
 
-    /*=============================================
-    Error cuando no envía token
-    =============================================*/    
+		}
 
-    } else {
+		/*=============================================
+		Error cuando el token no coincide en BD
+		=============================================*/	
 
-        $json = array(
-            'status' => 400,
-            'results' => "Error: Authorization required"
-        );
+		if($validate == "no-auth"){
 
-        echo json_encode($json, http_response_code($json["status"]));
-        return;    
-    }    
+			$json = array(
+			 	'status' => 400,
+			 	'results' => "Error: The user is not authorized"
+			);
+
+			echo json_encode($json, http_response_code($json["status"]));
+
+			return;
+
+		}
+
+	/*=============================================
+	Error cuando no envía token
+	=============================================*/	
+
+	}else{
+
+		$json = array(
+		 	'status' => 400,
+		 	'results' => "Error: Authorization required"
+		);
+
+		echo json_encode($json, http_response_code($json["status"]));
+
+		return;	
+
+	}	
+
 }
+

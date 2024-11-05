@@ -3,56 +3,68 @@
 require_once "connection.php";
 require_once "get.model.php";
 
-class PutModel {
+class PutModel{
 
-    /*=============================================
-    Petición Put para editar datos de forma dinámica
-    =============================================*/
+	/*=============================================
+	Peticion Put para editar datos de forma dinámica
+	=============================================*/
 
-    static public function putData($table, $data, $id, $nameId) {
+	static public function putData($table, $data, $id, $nameId){
 
-        /*=============================================
-        Validar el ID
-        =============================================*/
+		/*=============================================
+		Validar el ID
+		=============================================*/
 
-        $response = GetModel::getDataFilter($table, $nameId, $nameId, $id, null, null, null, null);
-        
-        if (empty($response)) {
-            return null;
-        }
+		$response = GetModel::getDataFilter($table, $nameId, $nameId, $id, null,null,null,null);
+		
+		if(empty($response)){
 
-        /*=============================================
-        Actualizamos registros
-        =============================================*/
+			return null;
 
-        $set = "";
+		}
 
-        foreach ($data as $key => $value) {
-            $set .= $key . " = :" . $key . ",";
-        }
+		/*=============================================
+		Actualizamos registros
+		=============================================*/
 
-        $set = substr($set, 0, -1);
+		$set = "";
 
-        $sql = "UPDATE $table SET $set WHERE $nameId = :$nameId";
+		foreach ($data as $key => $value) {
+			
+			$set .= $key." = :".$key.",";
+			
+		}
 
-        $link = Connection::connect();
-        $stmt = $link->prepare($sql);
+		$set = substr($set, 0, -1);
 
-        foreach ($data as $key => $value) {
-            $stmt->bindParam(":" . $key, $data[$key], PDO::PARAM_STR);
-        }
+		$sql = "UPDATE $table SET $set WHERE $nameId = :$nameId";
 
-        $stmt->bindParam(":" . $nameId, $id, PDO::PARAM_STR);
+		$link = Connection::connect();
+		$stmt = $link->prepare($sql);
 
-        if ($stmt->execute()) {
-            $response = array(
-                "comment" => "The process was successful"
-            );
-            return $response;
-        } else {
-            return $link->errorInfo();
-        }
+		foreach ($data as $key => $value) {
 
-    }
+			$stmt->bindParam(":".$key, $data[$key], PDO::PARAM_STR);
+		
+		}
+
+		$stmt->bindParam(":".$nameId, $id, PDO::PARAM_STR);
+
+		if($stmt -> execute()){
+
+			$response = array(
+
+				"comment" => "The process was successful"
+			);
+
+			return $response;
+		
+		}else{
+
+			return $link->errorInfo();
+
+		}
+
+	}
 
 }

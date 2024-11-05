@@ -3,44 +3,52 @@
 require_once "connection.php";
 require_once "get.model.php";
 
-class DeleteModel {
+class DeleteModel{
 
-    /*=============================================
-    Petición Delete para eliminar datos de forma dinámica
-    =============================================*/
+	/*=============================================
+	Peticion Delete para eliminar datos de forma dinámica
+	=============================================*/
 
-    static public function deleteData($table, $id, $nameId) {
+	static public function deleteData($table, $id, $nameId){
 
-        /*=============================================
-        Validar el ID
-        =============================================*/
+		/*=============================================
+		Validar el ID
+		=============================================*/
 
-        $response = GetModel::getDataFilter($table, $nameId, $nameId, $id, null, null, null, null);
-        
-        if (empty($response)) {
-            return null;
-        }
+		$response = GetModel::getDataFilter($table, $nameId, $nameId, $id, null,null,null,null);
+		
+		if(empty($response)){
 
-        /*=============================================
-        Eliminamos registros
-        =============================================*/
+			return null;
 
-        $sql = "DELETE FROM $table WHERE $nameId = :$nameId";
+		}
 
-        $link = Connection::connect();
-        $stmt = $link->prepare($sql);
+		/*=============================================
+		Eliminamos registros
+		=============================================*/
 
-        $stmt->bindParam(":".$nameId, $id, PDO::PARAM_STR);
+		$sql = "DELETE FROM $table WHERE $nameId = :$nameId";
 
-        if ($stmt->execute()) {
-            $response = array(
-                "comment" => "The process was successful"
-            );
-            return $response;
-        } else {
-            return $link->errorInfo();
-        }
+		$link = Connection::connect();
+		$stmt = $link->prepare($sql);
 
-    }
+		$stmt->bindParam(":".$nameId, $id, PDO::PARAM_STR);
+
+		if($stmt -> execute()){
+
+			$response = array(
+
+				"comment" => "The process was successful"
+			);
+
+			return $response;
+		
+		}else{
+
+			return $link->errorInfo();
+
+		}
+
+	}
 
 }

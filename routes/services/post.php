@@ -4,25 +4,17 @@ require_once "models/connection.php";
 require_once "controllers/post.controller.php";
 
 if (isset($_POST)) {
-
-
-
-
     /*=============================================
 	Separar propiedades en un arreglo
 	=============================================*/
-
     $columns = array();
-
     foreach (array_keys($_POST) as $key => $value) {
 
         array_push($columns, $value);
     }
-
     /*=============================================
 	Validar la tabla y las columnas
 	=============================================*/
-
     if (empty(Connection::getColumnsData($table, $columns))) {
 
         $json = array(
@@ -36,57 +28,52 @@ if (isset($_POST)) {
 
         return;
     }
-
     $response = new PostController();
-
+	
     /*=============================================
 	Peticion POST para registrar usuario
 	=============================================*/
-
     if (isset($_GET["register"]) && $_GET["register"] == true) {
-
+		
         $suffix = $_GET["suffix"] ?? "user";
 
         $response->postRegister($table, $_POST, $suffix);
-
+		
         /*=============================================
 	Peticion POST para login de usuario
 	=============================================*/
     } else if (isset($_GET["login"]) && $_GET["login"] == true) {
-
         $suffix = $_GET["suffix"] ?? "user";
-
         $response->postLogin($table, $_POST, $suffix);
-    }
-
     /*=============================================
     Peticion POST para solicitar código de recuperación
-    =============================================*/ else if (isset($_GET["passwordRecoveryRequest"]) && $_GET["passwordRecoveryRequest"] == true) {
+    =============================================*/ 
+	}else if (isset($_GET["postPasswordRecoveryRequest"]) && $_GET["postPasswordRecoveryRequest"] == true) {
+		
         $suffix = $_GET["suffix"] ?? "user";
-        $response->postPasswordRecoveryRequest($table, $_POST, $suffix);
-    }
+
+        $response->postPasswordRecoveryRequest($table, $_GET, $suffix);
+		
 
     /*=============================================
     Peticion POST para verificar código de recuperación
     =============================================*/
-    /*else if(isset($_GET["verifyRecoveryCode"]) && $_GET["verifyRecoveryCode"] == true){
-        $suffix = $_GET["suffix"] ?? "user";
-        $response->postVerifyRecoveryCode($table, $_POST, $suffix);
-    }*/ else if (isset($_GET["verifyRecoveryCode"]) && $_GET["verifyRecoveryCode"] == true) {
+	}else if (isset($_GET["verifyRecoveryCode"]) && $_GET["verifyRecoveryCode"] == true) {
         $suffix = $_GET["suffix"] ?? "user";
         $response = new PostController();
         $response->postVerifyRecoveryCode($table, $_POST, $suffix);
         return;
-    }
+    
 
     /*=============================================
     Peticion POST para cambiar contraseña
-    =============================================*/ else if (isset($_GET["changePassword"]) && $_GET["changePassword"] == true) {
+    =============================================*/
+	}else if (isset($_GET["changePassword"]) && $_GET["changePassword"] == true) {
         $suffix = $_GET["suffix"] ?? "user";
         $response->postChangePassword($table, $_POST, $suffix);
     } else {
-
-
+		
+		
         if (isset($_GET["token"])) {
 
             /*=============================================
@@ -175,7 +162,7 @@ if (isset($_POST)) {
 		Error cuando no envía token
 		=============================================*/
         } else {
-
+			
             $json = array(
                 'status' => 400,
                 'results' => "Error: Authorization required"
