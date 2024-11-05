@@ -52,7 +52,7 @@ if (isset($_POST)) {
 		
         $suffix = $_GET["suffix"] ?? "user";
 
-        $response->postPasswordRecoveryRequest($table, $_GET, $suffix);
+        $response->postPasswordRecoveryRequest($table, $_POST, $suffix);
 		
 
     /*=============================================
